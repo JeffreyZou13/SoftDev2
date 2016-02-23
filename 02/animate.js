@@ -19,7 +19,7 @@ context.strokeStyle = '#90EE90';
 var radius = 0;
 var requestID;
 var grow = false;
-function embiggen() {
+var embiggen = function embiggen() {
   context.clearRect(0,0,canvas.width,canvas.height);
 
   if (radius == 0) grow = true;
@@ -37,9 +37,25 @@ function embiggen() {
   requestID = window.requestAnimationFrame(embiggen);
 };
 
+//Stop the circle from growing/shrinking
 var stop = function stop(event) {
     event.preventDefault();
     window.cancelAnimationFrame(requestID);
+};
+
+//Good ol' DVD
+var x = canvas.width/2;
+var y = canvas.height/2;
+var w = 60;
+var h = 40;
+
+var moveDVD = function moveDVD() {
+    context.clearRect(0,0, canvas.width, canvas.height);
+    var logo = new Image();
+    logo.src = './logo_dvd.jpg';
+    context.drawImage(logo, x, y, w, h);
+
+    
 };
 
 var circle = document.getElementById('circle');
@@ -47,3 +63,6 @@ circle.addEventListener('click', embiggen);
 
 var stopIt = document.getElementById('stopIt');
 stopIt.addEventListener('click', stop);
+
+var dvd = document.getElementById('dvd');
+dvd.addEventListener('click', moveDVD);
