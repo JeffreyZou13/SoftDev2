@@ -17,6 +17,7 @@ context.strokeStyle = '#90EE90';
 
 //Growing, growing, growing
 var radius = 0;
+var requestID;
 var grow = false;
 function embiggen() {
   context.clearRect(0,0,canvas.width,canvas.height);
@@ -33,8 +34,16 @@ function embiggen() {
   context.stroke();
   context.fill();
   //Magic
-  window.requestAnimationFrame(embiggen);
+  requestID = window.requestAnimationFrame(embiggen);
+};
+
+var stop = function stop(event) {
+    event.preventDefault();
+    window.cancelAnimationFrame(requestID);
 };
 
 var circle = document.getElementById('circle');
 circle.addEventListener('click', embiggen);
+
+var stopIt = document.getElementById('stopIt');
+stopIt.addEventListener('click', stop);
