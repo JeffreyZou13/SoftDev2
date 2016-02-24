@@ -22,7 +22,6 @@ var radius = 0;
 var grow = false;
 var requestId;
 var embiggen = function embiggen(event) {
-  event.preventDefault();
   context.clearRect(0,0,canvas.width,canvas.height);
 
   if (radius == 0) grow = true;
