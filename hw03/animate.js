@@ -1,79 +1,106 @@
 /* Jeffrey Zou
 *  SoftDev2 pd3
 *  HW03 -- Are We Ever Going to Start the Movie?
-*  2016-02-24
+*  2016-02-25
 */
 
-console.log("hi mom");
+//model for HTML5 canvas-based animation
 
-//Usual setup for canvas
-canvas = document.getElementById('box');
-context = canvas.getContext('2d');
+//access canvas and buttons via DOM
+var c = document.getElementById("playground");
+var dotButton = document.getElementById( "circle" );
+var dvdButton = document.getElementById( "dvd" );
+var stopButton = document.getElementById( "stop" );
 
-//Setting the colors
-context.lineWidth = '5';
-context.fillStyle = '#FFB6C1';
-context.strokeStyle = '#0000FF';
-context.strokeRect(0,0,canvas.width,canvas.height);
-context.strokeStyle = '#90EE90';
+//prepare to interact with canvas in 2D
+var ctx = c.getContext("2d");
 
-//Growing, growing, growing
+//set fill color to red
+ctx.fillStyle = "#ff0000";
+
+
+var requestID;
+
+var clear = function(e) {
+    e.preventDefault();
+    ctx.clearRect(0, 0, 500, 500);
+};
+
 var radius = 0;
-var grow = false;
-var requestId;
-var embiggen = function embiggen(event) {
-  context.clearRect(0,0,canvas.width,canvas.height);
+var growing = true;
 
-  if (radius == 0) grow = true;
-  if (radius >= canvas.width/2) grow = false;
 
-  if (grow) radius += 1;
-  else radius -= 1;
+var drawDot = function() {
 
-  //I like circles
-  context.beginPath();
-  context.arc(canvas.width/2, canvas.height/2, radius, 0, 2*Math.PI);
-  context.stroke();
-  context.fill();
-  //Magic
-  requestId = window.requestAnimationFrame(embiggen);
-};
+    ctx.clearRect( 0, 0, c.width, c.height );
 
-//Good ol' DVD screensaver
-var right, down = true;
-var w = 80;
-var h = 60;
-var x = Math.floor(Math.random() * (canvas.width - w));
-var y = canvas.height/2;
-var logo = new Image();
-logo.src = './dvd.jpg';
+    if ( growing ) {
+	radius = radius + 1;
+    }
+    else {
+	radius = radius - 1;
+    }
 
-var moveDVD = function moveDVD(event) {
-  context.clearRect(0,0,canvas.width,canvas.height);
-  context.drawImage(logo, x, y, w, h);
-  if (x > canvas.width - w || x < 0) right = !right;
-  if (y > canvas.height - h || y < 0) down = !down;
+    if ( radius == (c.width / 2) )
+	growing = false;
+    else if ( radius == 0 ) {
+	growing = true;
+    }
 
-  if (right) x += 1;
-  else x -= 1;
-  if (down) y += 1;
-  else y -= 1;
+    ctx.beginPath();
+    ctx.arc( c.width / 2, c.height / 2, radius, 0, 2 * Math.PI );
+    ctx.stroke();
+    ctx.fill();
 
-  requestId = window.requestAnimationFrame(moveDVD);
-};
-
-//Stop animation
-var stopIt = function stopIt(event) {
-  event.preventDefault();
-  window.cancelAnimationFrame(requestId);
+    requestID = window.requestAnimationFrame( drawDot );
 };
 
 
-var circle = document.getElementById('circle');
-circle.addEventListener('click', embiggen);
 
-var stop = document.getElementById('stop');
-stop.addEventListener('click', stopIt);
+var dvdLogoSetup = function() {
 
-var dvd = document.getElementById('dvd');
-dvd.addEventListener('click', moveDVD);
+    //Q: What good might this do?
+    //A: It will stop the previous animation.
+    window.cancelAnimationFrame( requestID );
+
+    //var inits
+    var right, down = true;
+    var w = 80;
+    var h = 60;
+    var x = Math.floor(Math.random() * (c.width - w));
+    var y = c.height/2;
+    var logo = new Image();
+    logo.src = './dvd.jpg';
+
+    //a function defined within a function, oh my!
+    var dvdLogo = function() {
+      //Draw stuff
+      ctx.clearRect(0,0,c.width,c.height);
+      ctx.drawImage(logo, x, y, w, h);
+	    //propulsion mechanism
+	    if (right) x+=1;
+      else x-=1;
+      if (down) y+=1;
+      else y-=1;
+      //Checking for walls
+      if (x > c.width - w || x < 0) right = !right;
+      if (y > c.height - h || y < 0) down = !down;
+
+	    //Q: Why this here?
+      //A: This function is called over and over (sort of like recursion).
+	    requestID = window.requestAnimationFrame( dvdLogo );
+    };
+
+    dvdLogo();
+};
+
+
+var stopIt = function() {
+    console.log( requestID );
+    window.cancelAnimationFrame( requestID );
+};
+
+
+dotButton.addEventListener( "click", drawDot );
+dvdButton.addEventListener( "click", dvdLogoSetup );
+stopButton.addEventListener( "click",  stopIt );
