@@ -8,13 +8,23 @@ h1 {
   font-family: 'Times New Roman', Georgia, serif;
   font-size: 32px;
   text-align: center;
+  color: #00F;
 }
 
-.chart div {
-  font: 10px sans-serif;
-  background-color: steelblue;
-  text-align: right;
-  padding: 3px;
+.allotted div{
+  font: 5px;
+  background-color: #007FFF;
+  text-align: left;
+  color: #000080;
   margin: 1px;
-  color: white;
+  padding: 3px;
+}
+
+.unallocated div {
+  font: 5px;
+  background-color: #01044B;
+  text-align: left;
+  color: #3F00FF;
+  margin: 1px;
+  padding: 3px;
 }
