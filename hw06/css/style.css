@@ -1,0 +1,19 @@
+/* Jeffrey Zou
+*  SoftDev2 pd3
+*  HW05 - The Best Defense Against Tyranny...
+*  2016-03-21
+*/
+
+h1 {
+  font-family: 'Times New Roman', Georgia, serif;
+  font-size: 32px;
+  text-align: center;
+  color: #00F;
+}
+
+.chart div{
+  font: 5px;
+  text-align: left;
+  margin: 1px;
+  padding: 3px;
+}
