@@ -79,7 +79,7 @@ var change = function () {
      .text(function(d) { return d[0] + ' ' + d[1]; });
   }
   else {
-    d3.select('.chart').selectAll('div').remove();
+    d3.select('.chart').selectAll('div').remove();  
     d3.select('title').html('Elephant Delegates');
     d3.select('h1').html('Republican Delegates by state');
     d3.select('h1').attr('id', 'reph1');
