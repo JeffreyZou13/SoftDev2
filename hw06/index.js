@@ -30,7 +30,7 @@ var repData = [["California", 172], ["Texas", 155], ["Florida", 99], ["New York"
 
 var repAllocated = ["Iowa", "New Hampshire", "South Carolina", "Nevada", "Alabama", "Alaska", "Arkansas", "Georgia", "Massachussets", "Minnesota", "Oklahoma", "Tennessee", "Texas", "Vermont", "Virginia", "Kansas", "Kentucky", "Louisiana", "Maine", "Puerto Rico", "Hawaii", "Idaho", "Michigan", "Mississippi", "District of Columbia", "Wyoming", "Florida", "Illinois", "Missouri", "North Carolina", "Northern Marianas", "Ohio"];
 
-
+var dem = true;
 
 var stuff = d3.select('.chart')
   .selectAll('div')
@@ -40,35 +40,71 @@ var stuff = d3.select('.chart')
       return parseInt(d[1]) * 15 +'px';})
    .style('background-color', function(d) {
      if (democraticUnallocated.indexOf(d) == -1) {
-       console.log(democraticUnallocated.indexOf(d[0]));
        return '#007FFF';
      }
      else {
        return '#01044B';
      }
    })
-  .text(function(d) { return d; });
+  .text(function(d) { return d[0] + ' ' + d[1]; });
 
 
 var change = function () {
-  console.log('changing');
-  var selected = d3.select('.chart')
-    .selectAll('div')
-      .data(repData);
-  selected.exit().remove();
-  selected.enter().append('div')
-  .style('width', function(d) {
-    return d[1] * 10 + 'px';
-  })
-  .style('background-color', function(d) {
-    if (repAllocated.indexOf(d[0]) != -1) {
-      return '#990000';
-    }
-    else {
-      return '#8B0000';
-    }
-  })
+  dem = !dem;
+
+  if (dem) {
+    d3.select('.chart').selectAll('div').remove();
+    d3.select('title').html('Donkey Delegates');
+    d3.select('h1').html('Democratic Delegates by state');
+    d3.select('h1').attr('id', 'demh1');
+    d3.select('p').html('Total Delegates: 4,763');
+    d3.select('#all').style('background-color', '#007FFF');
+    d3.select('#un').style('background-color', '#01044B');
+
+    d3.select('.chart')
+      .selectAll('div')
+        .data(democratData.concat(democraticUnallocated))
+      .enter().append('div')
+      .transition()
+      .style('width', function(d) {
+        return parseInt(d[1]) * 15 + 'px';})
+      .style('background-color', function(d) {
+        if (democraticUnallocated.indexOf(d) == -1) {
+          return '#007FFF';
+        }
+        else {
+          return '#01044B';
+        }
+      })
+     .text(function(d) { return d[0] + ' ' + d[1]; });
+  }
+  else {
+    d3.select('.chart').selectAll('div').remove();
+    d3.select('title').html('Elephant Delegates');
+    d3.select('h1').html('Republican Delegates by state');
+    d3.select('h1').attr('id', 'reph1');
+    d3.select('p').html('Total Delegates: 2472');
+    d3.select('#all').style('background-color', '#990000');
+    d3.select('#un').style('background-color', '#FF3737');
+
+    d3.select('.chart')
+      .selectAll('div')
+        .data(repData)
+      .enter().append('div')
+      .transition()
+      .style('width', function(d) {
+        return parseInt(d[1]) * 15 + 'px';})
+      .style('background-color', function(d) {
+        console.log(d[0]);
+        if (repAllocated.indexOf(d[0]) != -1) {
+          return '#990000';
+        }
+        else {
+          return '#FF3737';
+        }
+      })
+     .text(function(d) { return d[0] + ' ' + d[1]; });
+  }
 }
 
-
-document.getElementsByClassName('chart')[0].addEventListener('click', change);
+d3.select('.chart').on('click', change);
