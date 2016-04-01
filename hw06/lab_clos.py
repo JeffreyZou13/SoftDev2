@@ -5,12 +5,20 @@ HW06
 2016-04-01
 '''
 
+UC_LETTERS='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+LC_LETTERS='abcdefghijklmnopqrstuvwxyz'
+SYMBOLS = '.?!&#,;:-_*'
+
 def isPassword(password):
     '''
-    
+    Checks if the password is valid (contains lowercase and uppercase letters, and a number)
+
+    Args:
+        password (string)
+
+    Returns:
+        True if the password meets the requirements, False otherwise
     '''
-    UC_LETTERS='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    LC_LETTERS='abcdefghijklmnopqrstuvwxyz'
 
     #Check for uppercase letters
     upper = [x for x in password if x in UC_LETTERS]
@@ -24,3 +32,52 @@ def isPassword(password):
 
     #Check for number
     number = [x for x in password if x.isdigit()]
+    if len(number) == 0:
+        return False
+    return True
+
+def passwordStrength(password):
+    '''
+    Rates the strength of a password on a scale of from 1 - 10
+
+    Args:
+        password (string)
+
+    Returns:
+        0 for a password that does not meet the requirement or is too weak
+        10 for a very strong password
+    '''
+    strength = 5
+    UCCount = len([x for x in password if x in UC_LETTERS ])
+    LCCount = len([x for x in password if x in LC_LETTERS ])
+    SYMCOUNT = len([x for x in password if x in SYMBOLS])
+    numbers = len([x for x in password if x.isdigit()])
+
+    if !isPassword(password):
+        return 0
+
+    if len(password <= 5):
+        return 1
+
+    if LCCount + UCCount <= 8:
+        strength -= 1
+    else:
+        strength += 1
+
+    if SYMCOUNT == 0:
+        strength -= 1
+    else:
+        strength += 1
+
+    if numbers < 3:
+        strength -= 1
+    else:
+        strength += 1
+
+    if strength > 10:
+        return 10
+
+    if strength < 0:
+        return 0
+
+    return strength
