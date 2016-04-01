@@ -1,7 +1,7 @@
 '''
 Jeffrey Zou
 SoftDev2 pd3
-HW06
+HW06 - List Comprehensions in Python
 2016-04-01
 '''
 
