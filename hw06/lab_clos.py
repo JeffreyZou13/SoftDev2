@@ -53,11 +53,13 @@ def passwordStrength(password):
     SYMCOUNT = len([x for x in password if x in SYMBOLS])
     numbers = len([x for x in password if x.isdigit()])
 
-    if !isPassword(password):
+    if not isPassword(password):
         return 0
 
-    if len(password <= 5):
+    if len(password) <= 5:
         return 1
+    else:
+        strength += 1
 
     if LCCount + UCCount <= 8:
         strength -= 1
