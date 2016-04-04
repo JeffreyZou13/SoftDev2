@@ -15,6 +15,9 @@ def repeat(s):
 #def repeat(s):
     #return lambda x: x*s
 
-print r1=repeat('hello')
-print r2=repeat('goodbye')
+r1=repeat('hello')
+print r1
+r2=repeat('goodbye')
+print r2
 print repeat('cool')(3)
+
