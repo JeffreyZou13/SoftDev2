@@ -1,0 +1,14 @@
+def pt(n):
+    '''
+    Very inefficient pythagorean triple outputer\
+    Returns a list of pythagorean triples
+    '''
+    triples = []
+    for c in xrange(n):
+        for b in xrange(c):
+            for a in xrange(b):
+                if a**2 + b**2 == c**a:
+                    triples.append([a, b, c])
+    return triples
+
+print pt(6)
