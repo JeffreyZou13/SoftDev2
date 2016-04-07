@@ -22,15 +22,3 @@ def pt2(n):
             for b in xrange(c+1)
             for a in xrange(b+1)
             if a**2 + b**2 == c**2]
-
-def quicksort(list):
-    '''
-    1. Pick a pivot
-    2. Partition into two lists such that
-    *all values < pivot are on the left
-    *all values > pivot are on the right
-    *pivot is in the right place, it's in the final resting position
-    3. quicksort(lowerhalf) + pivot + quicksprt(higherhalf)
-    '''
-    pivot = len(list)/2
-    lower = [list[x] for x i
