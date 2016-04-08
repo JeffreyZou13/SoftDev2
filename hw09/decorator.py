@@ -10,7 +10,7 @@ def timer(f):
     def inner(*arg):
         before = time.time()
         f(*arg)
-        return str((time.time() - before) * 1000) + ' ms'
+        return 'execution time: ' + str((time.time() - before) * 1000) + ' ms'
     return inner
 
 @timer
@@ -18,4 +18,13 @@ def timer(f):
 def hello(i, j, k):
     return 'hello world'
 
-print hello(1, 2, 3)
+@timer
+@name
+def fib(n):
+    if n==1:
+        return 0
+    elif n <= 3:
+        return 1
+    return fib(n-1) + fib(n-2)
+
+print fib(10)
