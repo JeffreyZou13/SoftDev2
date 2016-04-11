@@ -20,8 +20,8 @@ def union(A, B):
     '''
     Returns the set of all objects that are a member of A or B or both
     '''
-    #return [x for x in A+B]
-    return setDifference(A, B) + B
+    return [x for x in A if x not in B] + B
+    #return setDifference(A, B) + B
 
 #print union(set1, set2)
 

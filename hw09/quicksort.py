@@ -13,7 +13,7 @@ def quicksort(l):
         return l
     pivot = l[len(l)/2]
     lower = [x for x in l if x < pivot]
-    higher = [x for x in l if x >= pivot]
+    higher = [x for x in l if x > pivot]
     return quicksort(lower) + [pivot] + quicksort(higher)
 
-quicksort(l)
+print quicksort(l)
