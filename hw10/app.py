@@ -2,12 +2,30 @@ from flask import Flask, render_template, request, redirect, url_for, session
 import utils
 import nyt
 import urllib2, json
+from functools import wraps
 
 app = Flask(__name__)
 
 global recipes
 recipes = {}
 
+def name(f):
+	@wraps(f)
+    def inner(*arg):
+        print f.func_name + str(arg)
+    	return f(*arg)
+    return inner
+
+def timer(f):
+	@wraps(f)
+	def inner(*arg):
+		before = time.time()
+    	f(*arg)
+        return 'execution time: ' + str((time.time() - before) * 1000) + ' ms'
+    return inner
+
+@timer
+@name
 @app.route("/")
 def index():
 	return render_template("index.html")
@@ -30,7 +48,7 @@ def search():
 		query = [ing1,ing2,ing3,ing4,ing5]
 		results = utils.fetchRecipes(query)  # list of recipes matching ingredients
 		for r in results:
-			name = r['recipe']['label']  
+			name = r['recipe']['label']
 			if name not in recipes:
 				recipes[name] = r['recipe']
 		return render_template("search.html", results=results)
@@ -48,7 +66,7 @@ def result(recipe=""):
         ingArticles = utils.nytArticleSearch(utils.safeSearch(ing))
         for article in ingArticles:
             info = utils.extractInfo(article)
-            articles += [info]  
+            articles += [info]
             for l in info['locations']:
                 markerString += utils.createMarker(l)
     	"""
@@ -57,7 +75,7 @@ def result(recipe=""):
 @app.route("/nyt/<tag>")
 def nyt():
         return nyt.nytArticleSearch(tag)
-        
+
 if __name__ == "__main__":
     app.debug = True
     app.secret_key="0112358"
